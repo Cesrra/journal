@@ -5,7 +5,7 @@ import { Button, Grid, Link, TextField, Typography } from "@mui/material"
 
 import { AuthLayout } from "../layout/AuthLayout"
 import { useForm } from "../../hooks/useForm"
-import { startCheckingAuthentication,  } from "../../store/auth"
+import { startCheckingAuthentication, startGoogleSignIn } from "../../store/auth"
 
 export const LoginPage = () => {
   const dispatch = useDispatch()
@@ -21,7 +21,7 @@ export const LoginPage = () => {
   }
 
   const onGoogleSignIn = () => {
-    dispatch( startCheckingAuthentication({ email, password }) )
+    dispatch( startGoogleSignIn() )
   }
 
   return (
