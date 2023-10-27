@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { Link as RouterLink } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { Button, Grid, TextField, Typography } from "@mui/material"
@@ -8,18 +9,51 @@ const formData = {
   displayName: 'Cesar Rincon',
   email: 'cesarr@gmail.com',
   password: '123456',
-  confirmPassword: '123456' 
+  confirmPassword: '123457' 
 }
+
+const formValidations = {
+  displayName: [(value) => value.length > 1 , 'El nombre es obligatorio y mayor a un caracter'],
+  email: [(value) => value.includes('@') , 'El email debe tener @'],
+  password: [(value) => value.length >= 6 , 'La contraceña debe tener más de 5 caracteres'],
+  // confirmPassword: [(value) => value === confirmPassword , 'Las contraceñas no coinciden'],
+}
+
 export const RegisterPage = () => {
-  const { displayName, email, password, confirmPassword, onInputChange, formState } = useForm( formData )
+  const { 
+    displayName, displayNameValid,
+    email, emailValid,
+    password, passwordValid,
+    formState, isFormValid,
+    confirmPassword,
+    onInputChange 
+  } = useForm( formData, formValidations )
+
+  // const [ setFormSubmited ] = useState(false)
+  const [ confirmPasswordValid, setConfirmPasswordValid ] = useState(null)
+
+  useEffect(() => {
+    if( password === confirmPassword ) {
+      setConfirmPasswordValid(null)
+    }else {
+      setConfirmPasswordValid('Las contraceñas no coinciden')      
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [confirmPassword])
+  
+
   const onRegister = ( event ) => {
     event.preventDefault()
-    console.log(formState)
+    if( isFormValid && confirmPasswordValid == null ) {
+      // setFormSubmited( true )
+      console.log(formState)
+    }
   }
 
   return (
     <AuthLayout title="Registro">
       <form onSubmit={ onRegister }>
+        <h1>Form Valid {isFormValid ? 'Sí' : 'No'} </h1>
         <Grid container >
           <Grid item xs={12} sx={{ mt: 2 }} >
             <TextField 
@@ -30,6 +64,8 @@ export const RegisterPage = () => {
               name="displayName"
               value={ displayName }
               onChange={ onInputChange }
+              error={ !!displayNameValid }
+              helperText={ displayNameValid }
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }} >
@@ -41,6 +77,8 @@ export const RegisterPage = () => {
               name="email"
               value={ email }
               onChange={ onInputChange }
+              error={ !!emailValid }
+              helperText={ emailValid }
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 3 }} >
@@ -52,6 +90,8 @@ export const RegisterPage = () => {
               name="password"
               value={ password }
               onChange={ onInputChange }
+              error={ !!passwordValid }
+              helperText={ passwordValid }
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 3 }} >
@@ -63,6 +103,8 @@ export const RegisterPage = () => {
               name="confirmPassword"
               value={ confirmPassword }
               onChange={ onInputChange }
+              error={ !!confirmPasswordValid }
+              helperText={ confirmPasswordValid }
             />
           </Grid>
 
