@@ -3,7 +3,7 @@ import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material"
 
 // eslint-disable-next-line react/prop-types
 export const NavBar = ({ drawerWidth = 240 }) => {
-    console.log(drawerWidth)
+    
   return (
     <AppBar
         position="fixed"
