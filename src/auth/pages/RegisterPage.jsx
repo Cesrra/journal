@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { Link as RouterLink } from "react-router-dom"
 import { Link } from "react-router-dom"
-import { Button, Grid, TextField, Typography } from "@mui/material"
+import { Alert, Button, Grid, TextField, Typography } from "@mui/material"
 import { AuthLayout } from "../layout/AuthLayout"
 import { useForm } from "../../hooks/useForm"
+import { startRegisterUserEmailPassword } from "../../store/auth"
 
 const formData = {
   displayName: 'Cesar Rincon',
   email: 'cesarr@gmail.com',
   password: '123456',
-  confirmPassword: '123457' 
+  confirmPassword: '123456' 
 }
 
 const formValidations = {
@@ -29,8 +31,12 @@ export const RegisterPage = () => {
     onInputChange 
   } = useForm( formData, formValidations )
 
+  const dispatch = useDispatch()
+  const { status, errorMessage } = useSelector((state) => state.auth )
+
   // const [ setFormSubmited ] = useState(false)
   const [ confirmPasswordValid, setConfirmPasswordValid ] = useState(null)
+  const isAuthenticating = useMemo(() => status === 'checking', [status])
 
   useEffect(() => {
     if( password === confirmPassword ) {
@@ -45,8 +51,7 @@ export const RegisterPage = () => {
   const onRegister = ( event ) => {
     event.preventDefault()
     if( isFormValid && confirmPasswordValid == null ) {
-      // setFormSubmited( true )
-      console.log(formState)
+      dispatch( startRegisterUserEmailPassword(formState) )
     }
   }
 
@@ -94,7 +99,7 @@ export const RegisterPage = () => {
               helperText={ passwordValid }
             />
           </Grid>
-          <Grid item xs={12} sx={{ mt: 3 }} >
+          <Grid item xs={12} mt={ 3 } >
             <TextField 
               label="Confirmar Contraceña"
               type="password"
@@ -108,10 +113,25 @@ export const RegisterPage = () => {
             />
           </Grid>
 
+          <Grid item sm={ 12 } xs={ 12 } mt={ 3 }
+            // eslint-disable-next-line no-extra-boolean-cast
+            display={ !!errorMessage ? '' : 'none' }
+            container 
+            justifyContent='center' 
+          >
+            <Alert severity="error">
+              { errorMessage }
+            </Alert>
+          </Grid>
 
           <Grid container spacing={ 2 } sx={{ mt: 1 }}>
             <Grid item xs={ 12 } sm={ 12 }>
-              <Button variant='contained' type="submit" fullWidth>
+              <Button 
+                variant='contained'
+                type="submit"
+                fullWidth
+                disabled={ isAuthenticating }
+              >
                 Crear Cuenta
               </Button>
             </Grid>
