@@ -1,8 +1,16 @@
 import { SaveOutlined } from "@mui/icons-material"
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import { ImageGallery } from "../../UI"
+import { useForm } from "../../hooks"
 
 export const NoteView = () => {
+  const initial_form = {
+    title: '',
+    body: '',
+    date: new Date().getTime(),
+  }
+  const { title, body, date, onInputChange } = useForm(initial_form)
+
   return (
     <Grid 
       container 
@@ -27,6 +35,9 @@ export const NoteView = () => {
             placeholder="Ingrese un título"
             label="Título"
             sx={{ border: 'none', mb: 1 }}
+            name="title"
+            value={ title }
+            onChange={ onInputChange }
           />
           <TextField 
             type="text"
@@ -35,6 +46,9 @@ export const NoteView = () => {
             multiline
             placeholder="¿Qué sucedió hoy?"
             minRows={ 5 }
+            name="body"
+            value={ body }
+            onChange={ onInputChange }
           />
         </Grid>
         {/* Imagenes de la nota */}
