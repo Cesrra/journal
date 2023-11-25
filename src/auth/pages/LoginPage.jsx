@@ -13,14 +13,16 @@ const formValidations = {
   password: [(value) => value.length >= 6 , 'La contraceña debe tener más de 5 caracteres'],
 }
 
+const initialForm = {
+  email: 'cesarr@gmail.com',
+  password: '123456'
+}
+
 export const LoginPage = () => {
   const { status, errorMessage } = useSelector( state => state.auth )
   const dispatch = useDispatch()
   
-  const { email, emailValid, password, passwordValid, onInputChange } = useForm({
-    email: 'cesarr@gmail.com',
-    password: '123456'
-  }, formValidations)
+  const { email, emailValid, password, passwordValid, onInputChange } = useForm( initialForm, formValidations)
 
   const isAuthenticating = useMemo(() => status === 'checking', [status])
   
