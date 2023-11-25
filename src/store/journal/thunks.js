@@ -25,6 +25,7 @@ export const  startNewNote = () => {
             title: 'Example',
             body: 'Common mistake that I was meked it is do not belive in me',
             date: new Date().getTime(),
+            imageUrls: []
         }
         const newDoc = doc( collection( FirebaseDB, `${uid}/journal/notes` ) )
         await setDoc( newDoc, newNote )
