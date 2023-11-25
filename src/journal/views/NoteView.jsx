@@ -4,6 +4,7 @@ import { ImageGallery } from "../../UI"
 import { useForm } from "../../hooks"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useMemo } from "react"
+import { setActiveNote, startUpdateNote } from "../../store/journal"
 
 export const NoteView = () => {
   const dispatch = useDispatch()
@@ -16,10 +17,13 @@ export const NoteView = () => {
   }, [ date ])
 
   useEffect(() => {
-    
-  }, [activedNote])
+    dispatch( setActiveNote( formState ) )
+  }, [ formState, dispatch ])
   
-
+  const onSaveNote = () => {
+    dispatch( startUpdateNote() )
+  }
+  
   return (
     <Grid 
       container 
@@ -31,7 +35,11 @@ export const NoteView = () => {
             <Typography fontSize={ 39 } fontWeight='light' >{ dateString }</Typography>
         </Grid>
         <Grid item>
-          <Button color="secondary" sx={{ padding: 2 }}>
+          <Button 
+            color="secondary"
+            sx={{ padding: 2 }}
+            onClick={ onSaveNote }
+          >
             <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
             Guardar
           </Button>
