@@ -1,9 +1,12 @@
+import { getEnvVariables } from '../helpers'
 
 
 export const fileUpload = async ( file ) => {
     if ( !file ) throw new Error('No hay archivos a suvir')
     
-    const clientURL = 'https://api.cloudinary.com/v1_1/dqdynwx7b/upload'
+    const { CLOUDINARY_CLIENT_URL } = getEnvVariables()
+    
+    const clientURL = CLOUDINARY_CLIENT_URL
     const formData = new FormData()
 
     formData.append( 'upload_preset', 'react-journal')
