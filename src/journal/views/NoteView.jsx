@@ -11,7 +11,7 @@ import { setActiveNote, startUpdateNote, startUpladingFiles } from "../../store/
 export const NoteView = () => {
   const dispatch = useDispatch()
   const { activedNote, messageSaved, isSaving } = useSelector( state => state.journal )
-  const { title, body, date, imageUrls, formState, onInputChange } = useForm( activedNote )
+  const { title, body, date, formState, onInputChange } = useForm( activedNote )
   
   const dateString = useMemo(() => {
     const newDate = new Date( date )
@@ -32,6 +32,7 @@ export const NoteView = () => {
   
   const onSaveNote = () => {
     dispatch( startUpdateNote() )
+    // dispatch( startNewNote() )
   }
 
   const onFileInputChange = ({ target }) => {
@@ -48,7 +49,7 @@ export const NoteView = () => {
       alignItems='center'
       sx={{ mb: 2 }}>
         <Grid item>
-            <Typography fontSize={ 39 } fontWeight='light' >{ dateString }</Typography>
+          <Typography fontSize={ 39 } fontWeight='light' >{ dateString }</Typography>
         </Grid>
         <Grid item>
           <input 
@@ -99,8 +100,7 @@ export const NoteView = () => {
             onChange={ onInputChange }
           />
         </Grid>
-        {/* Imagenes de la nota */}
-        <ImageGallery />
+        <ImageGallery images={ activedNote.imageUrls } />
     </Grid>
   )
 }
