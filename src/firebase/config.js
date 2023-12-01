@@ -2,18 +2,28 @@
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore/lite"
+import { getEnvVariables } from '../helpers'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+const {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORA_BUCKET,
+  FIREBASE_MESSAGIN_SENDER_ID,
+  FIREBASE_APP_ID,
+} = getEnvVariables()
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAd95PhD8KKiu4e52ODespjfy7WROEewYQ",
-  authDomain: "journal-react-cesrra.firebaseapp.com",
-  projectId: "journal-react-cesrra",
-  storageBucket: "journal-react-cesrra.appspot.com",
-  messagingSenderId: "1097587837364",
-  appId: "1:1097587837364:web:2279f030ca874ba5668ae1"
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId:FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORA_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGIN_SENDER_ID,
+  appId: FIREBASE_APP_ID
 }
 
 // Initialize Firebase 
